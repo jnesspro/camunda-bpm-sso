@@ -3,11 +3,13 @@ FROM openjdk:8-jdk-slim as builder
 COPY gradle /app_src/gradle
 COPY build.gradle /app_src/build.gradle
 COPY gradlew /app_src/gradlew
+COPY lib /app_src/lib
+COPY camunda-webapp-webjar/build.gradle /app_src/camunda-webapp-webjar/build.gradle
 COPY src /app_src/src
 RUN update-ca-certificates -f
 RUN \
   cd /app_src \
-  && ./gradlew test build \
+  && ./gradlew build \
   && cp build/libs/*.jar /srv/app.jar \
   && rm -rf /app_src/* \
   && rm -rf /var/cache/apk/* \
