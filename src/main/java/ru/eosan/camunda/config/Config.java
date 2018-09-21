@@ -4,8 +4,11 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.servlet.Filter;
+import javax.sql.DataSource;
 
 @Configuration
 public class Config {
@@ -28,5 +31,10 @@ public class Config {
 
     public Filter autoLoginAuthenticationFilter() {
         return new SSOAuthFilter();
+    }
+
+    @Bean
+    public PlatformTransactionManager transactionManager(DataSource dataSource) {
+        return new DataSourceTransactionManager(dataSource);
     }
 }
