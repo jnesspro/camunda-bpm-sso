@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '2.0.0.RELEASE'
+        springBootVersion = '2.0.2.RELEASE'
     }
     repositories {
         mavenCentral()
@@ -37,7 +37,7 @@ dependencies {
                 exclude group: 'org.camunda.bpm.webapp', module: 'camunda-webapp-webjar'
             }
     compile files('lib/camunda-webapp-webjar-7.9.0.jar')
-    implementation('org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest:3.1.0-alpha1')
+    implementation('org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest:3.0.0')
     compile('org.postgresql:postgresql')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
