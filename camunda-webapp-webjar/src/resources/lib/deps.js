@@ -1,4 +1,4 @@
-require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+require=(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 /**
  * @license AngularJS v1.2.29
  * (c) 2010-2014 Google, Inc. http://angularjs.org
@@ -29666,7 +29666,7 @@ var closest = require('./closest');
  * @param {Boolean} useCapture
  * @return {Object}
  */
-function delegate(element, selector, type, callback, useCapture) {
+function _delegate(element, selector, type, callback, useCapture) {
     var listenerFn = listener.apply(this, arguments);
 
     element.addEventListener(type, listenerFn, useCapture);
@@ -29676,6 +29676,40 @@ function delegate(element, selector, type, callback, useCapture) {
             element.removeEventListener(type, listenerFn, useCapture);
         }
     }
+}
+
+/**
+ * Delegates event to a selector.
+ *
+ * @param {Element|String|Array} [elements]
+ * @param {String} selector
+ * @param {String} type
+ * @param {Function} callback
+ * @param {Boolean} useCapture
+ * @return {Object}
+ */
+function delegate(elements, selector, type, callback, useCapture) {
+    // Handle the regular Element usage
+    if (typeof elements.addEventListener === 'function') {
+        return _delegate.apply(null, arguments);
+    }
+
+    // Handle Element-less usage, it defaults to global delegation
+    if (typeof type === 'function') {
+        // Use `document` as the first parameter, then apply arguments
+        // This is a short way to .unshift `arguments` without running into deoptimizations
+        return _delegate.bind(null, document).apply(null, arguments);
+    }
+
+    // Handle Selector-based usage
+    if (typeof elements === 'string') {
+        elements = document.querySelectorAll(elements);
+    }
+
+    // Handle Array-like based usage
+    return Array.prototype.map.call(elements, function (element) {
+        return _delegate(element, selector, type, callback, useCapture);
+    });
 }
 
 /**
@@ -30104,6 +30138,86 @@ function select(element) {
 module.exports = select;
 
 },{}],29:[function(require,module,exports){
+// DOM APIs, for completeness
+
+if (typeof setTimeout !== 'undefined') exports.setTimeout = function() { return setTimeout.apply(window, arguments); };
+if (typeof clearTimeout !== 'undefined') exports.clearTimeout = function() { clearTimeout.apply(window, arguments); };
+if (typeof setInterval !== 'undefined') exports.setInterval = function() { return setInterval.apply(window, arguments); };
+if (typeof clearInterval !== 'undefined') exports.clearInterval = function() { clearInterval.apply(window, arguments); };
+
+// TODO: Change to more effiecient list approach used in Node.js
+// For now, we just implement the APIs using the primitives above.
+
+exports.enroll = function(item, delay) {
+  item._timeoutID = setTimeout(item._onTimeout, delay);
+};
+
+exports.unenroll = function(item) {
+  clearTimeout(item._timeoutID);
+};
+
+exports.active = function(item) {
+  // our naive impl doesn't care (correctness is still preserved)
+};
+
+exports.setImmediate = require('process/browser.js').nextTick;
+
+},{"process/browser.js":30}],30:[function(require,module,exports){
+// shim for using process in browser
+
+var process = module.exports = {};
+
+process.nextTick = (function () {
+    var canSetImmediate = typeof window !== 'undefined'
+    && window.setImmediate;
+    var canPost = typeof window !== 'undefined'
+    && window.postMessage && window.addEventListener
+    ;
+
+    if (canSetImmediate) {
+        return function (f) { return window.setImmediate(f) };
+    }
+
+    if (canPost) {
+        var queue = [];
+        window.addEventListener('message', function (ev) {
+            var source = ev.source;
+            if ((source === window || source === null) && ev.data === 'process-tick') {
+                ev.stopPropagation();
+                if (queue.length > 0) {
+                    var fn = queue.shift();
+                    fn();
+                }
+            }
+        }, true);
+
+        return function nextTick(fn) {
+            queue.push(fn);
+            window.postMessage('process-tick', '*');
+        };
+    }
+
+    return function nextTick(fn) {
+        setTimeout(fn, 0);
+    };
+})();
+
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+}
+
+// TODO(shtylman)
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+
+},{}],31:[function(require,module,exports){
 function E () {
   // Keep this empty so it's easier to inherit from
   // (via https://github.com/lipsmack from https://github.com/scottcorgan/tiny-emitter/issues/3)
@@ -69293,7 +69407,7 @@ require('../../js/affix.js')
 
     module.exports = Clipboard;
 });
-},{"./clipboard-action":20,"good-listener":25,"tiny-emitter":29}],"grunt-contrib-watch":[function(require,module,exports){
+},{"./clipboard-action":20,"good-listener":25,"tiny-emitter":31}],"grunt-contrib-watch":[function(require,module,exports){
 /*
  * grunt-contrib-watch
  * http://gruntjs.com/
@@ -89647,7 +89761,7 @@ if (typeof module !== 'undefined' && typeof exports === 'object') {
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],"q":[function(require,module,exports){
-(function (process){
+(function (process,setImmediate){
 // vim:ts=4:sts=4:sw=4:
 /*!
  *
@@ -91295,9 +91409,12 @@ function any(promises) {
         function onRejected(err) {
             pendingCount--;
             if (pendingCount === 0) {
-                err.message = ("Q can't get fulfillment value from any promise, all " +
-                    "promises were rejected. Last error message: " + err.message);
-                deferred.reject(err);
+                var rejection = err || new Error("" + err);
+
+                rejection.message = ("Q can't get fulfillment value from any promise, all " +
+                    "promises were rejected. Last error message: " + rejection.message);
+
+                deferred.reject(rejection);
             }
         }
         function onProgress(progress) {
@@ -91722,8 +91839,8 @@ return Q;
 
 });
 
-}).call(this,require('_process'))
-},{"_process":26}],"superagent":[function(require,module,exports){
+}).call(this,require('_process'),require("timers").setImmediate)
+},{"_process":26,"timers":29}],"superagent":[function(require,module,exports){
 /**
  * Module dependencies.
  */

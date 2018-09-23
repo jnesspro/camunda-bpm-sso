@@ -34,11 +34,11 @@
 
 
     <!-- styles -->
-    <link href="$APP_ROOT/app/welcome/styles/styles.css?bust=7.9.0"
+    <link href="$APP_ROOT/app/welcome/styles/styles.css?bust=7.9.4-SNAPSHOT-1537539156359"
           rel="stylesheet" />
     <link rel="stylesheet"
           type="text/css"
-          href="$APP_ROOT/app/welcome/styles/user-styles.css?bust=7.9.0">
+          href="$APP_ROOT/app/welcome/styles/user-styles.css?bust=7.9.4-SNAPSHOT-1537539156359">
 
     <!-- favicon -->
     <link rel="shortcut icon"
@@ -85,7 +85,7 @@
 
     <!-- footer -->
     <footer cam-widget-footer
-            version="v7.9.0"></footer>
+            version="v${project.version}"></footer>
 
     <script type="application/javascript">
       window.PLUGIN_DEPENDENCIES = $PLUGIN_DEPENDENCIES || [];
@@ -109,7 +109,7 @@ window.require = undefined;
 
 requirejs.config({
   baseUrl: '$APP_ROOT/app/welcome',
-  urlArgs: 'bust=7.9.0'
+  urlArgs: 'bust=7.9.4-SNAPSHOT-1537539156359'
 });
 requirejs(['$APP_ROOT/lib/deps.js'], function () {
   requirejs(['$APP_ROOT/app/welcome/camunda-welcome-bootstrap.js'], function(){});
