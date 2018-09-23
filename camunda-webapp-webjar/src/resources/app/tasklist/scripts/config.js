@@ -11,10 +11,10 @@ window.camTasklistConf = {
   //   "long":   "LLLL"
   // },
   //
-  "locales": {
-     "availableLocales": ["ru", "en"],
-     "fallbackLocale": "en"
-   },
+  // "locales": {
+  //    "availableLocales": ["en", "de"],
+  //    "fallbackLocale": "en"
+  //  },
   //
   // // custom libraries and scripts loading and initialization,
   // // see: http://docs.camunda.org/guides/user-guide/#tasklist-customizing-custom-scripts

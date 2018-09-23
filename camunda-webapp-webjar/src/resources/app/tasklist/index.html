@@ -25,10 +25,10 @@
 
   <link rel="stylesheet"
         type="text/css"
-        href="$APP_ROOT/app/tasklist/styles/styles.css?bust=7.9.0">
+        href="$APP_ROOT/app/tasklist/styles/styles.css?bust=7.9.4-SNAPSHOT-1537539156363">
   <link rel="stylesheet"
         type="text/css"
-        href="$APP_ROOT/app/tasklist/styles/user-styles.css?bust=7.9.0">
+        href="$APP_ROOT/app/tasklist/styles/user-styles.css?bust=7.9.4-SNAPSHOT-1537539156363">
 
   <!-- favicon -->
   <link rel="shortcut icon"
@@ -91,7 +91,7 @@
 
   <!-- # page-footer -->
   <footer cam-widget-footer
-          version="v7.9.0"></footer>
+          version="v${project.version}"></footer>
 
 
   <script type="text/javascript">
@@ -130,7 +130,7 @@ window.require = undefined;
 
 requirejs.config({
   baseUrl: '$APP_ROOT/app/tasklist',
-  urlArgs: 'bust=7.9.0'
+  urlArgs: 'bust=7.9.4-SNAPSHOT-1537539156363'
 });
 requirejs(['$APP_ROOT/lib/deps.js'], function () {
   requirejs(['$APP_ROOT/app/tasklist/camunda-tasklist-bootstrap.js'], function () {});
