@@ -22,10 +22,6 @@ window.camCockpitConf = {
   // set if a user can change the default or no
   // userCanChangePeriod: true/false
   // },
-  // 'locales': {
-  //   'availableLocales': ['en', 'de'],
-  //   'fallbackLocale': 'en'
-  // },
   // skipCustomListeners: {
   //   default: true,
   //   hidden: false
@@ -35,4 +31,8 @@ window.camCockpitConf = {
   //   // possible values: filter, search
   //   'mode': 'filter'
   // }
+  'locales': {
+    'availableLocales': ['ru', 'en'],
+    'fallbackLocale': 'ru'
+  }
 };
