@@ -33,13 +33,13 @@
 
 
     <!-- styles -->
-    <link href="$APP_ROOT/app/cockpit/styles/styles.css?bust=7.9.4-SNAPSHOT-1538065270679"
+    <link href="$APP_ROOT/app/cockpit/styles/styles.css?bust=7.9.6-SNAPSHOT-1538907260987"
           rel="stylesheet" />
-    <link href="$APP_ROOT/app/cockpit/styles/styles-components.css?bust=7.9.4-SNAPSHOT-1538065270679"
+    <link href="$APP_ROOT/app/cockpit/styles/styles-components.css?bust=7.9.6-SNAPSHOT-1538907260987"
           rel="stylesheet" />
     <link rel="stylesheet"
           type="text/css"
-          href="$APP_ROOT/app/cockpit/styles/user-styles.css?bust=7.9.4-SNAPSHOT-1538065270679">
+          href="$APP_ROOT/app/cockpit/styles/user-styles.css?bust=7.9.6-SNAPSHOT-1538907260987">
 
     <!-- favicon -->
     <link rel="shortcut icon"
@@ -53,14 +53,10 @@
     <link rel="apple-touch-icon"
           sizes="114x114"
           href="$APP_ROOT/app/cockpit/assets/images/camunda.114.png" />
-    <script>
-      $location.search().hr
-    </script>
   </head>
   <body>
     <!-- navigation -->
-    <div ng-if="!hideControl"
-         cam-widget-header
+    <div cam-widget-header
          authentication="authentication"
          user-name="userFullName"
          current-app="cockpit"
@@ -77,10 +73,12 @@
         </li>
 
         <li class="dropdown"
-            ng-if="dropdownActions.length">
+            ng-if="dropdownActions.length"
+            uib-dropdown>
           <a class="dropdown-toggle"
+             uib-dropdown-toggle
              href>{{ 'COCKPIT_MORE' | translate}} <i class="caret"></i></a>
-          <ul class="dropdown-menu">
+          <ul class="dropdown-menu" uib-dropdown-menu>
             <li ng-repeat="actionProvider in dropdownActions"
                 ng-if="actionProvider.pagePath && actionProvider.accessible"
                 ng-class="activeClass(actionProvider)">
@@ -100,7 +98,7 @@
              divider="&raquo;"
              class="breadcrumbs-panel"></div>
 
-        <div ng-if="!hideControl" notifications-panel
+        <div notifications-panel
              class="page-notifications"></div>
 
         <!-- view body provided by ngView -->
@@ -118,8 +116,7 @@
     </div>
 
     <!-- footer -->
-    <footer ng-if="!hideControl"
-            cam-widget-footer
+    <footer cam-widget-footer
             version="v${project.version}"></footer>
 
     <script type="application/javascript">
@@ -151,7 +148,7 @@ window.require = undefined;
 
 requirejs.config({
   baseUrl: '$APP_ROOT/app/cockpit',
-  urlArgs: 'bust=7.9.4-SNAPSHOT-1538065270679'
+  urlArgs: 'bust=7.9.6-SNAPSHOT-1538907260987'
 });
 requirejs(['$APP_ROOT/lib/deps.js'], function () {
   requirejs(['$APP_ROOT/app/cockpit/camunda-cockpit-bootstrap.js'], function(){});

@@ -22,10 +22,10 @@ window.camCockpitConf = {
   // set if a user can change the default or no
   // userCanChangePeriod: true/false
   // },
-  'locales': {
-    'availableLocales': ['ru', 'en'],
-    'fallbackLocale': 'en'
-  }
+  // 'locales': {
+  //   'availableLocales': ['en', 'de'],
+  //   'fallbackLocale': 'en'
+  // },
   // skipCustomListeners: {
   //   default: true,
   //   hidden: false
