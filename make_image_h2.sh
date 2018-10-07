@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+./make_libs.sh
+
 ver="$(cat build.gradle | grep "version = " | tr -d "'")" && ver="$(echo ${ver:10})"
 imageName=h2
 imageRepository=jnesspro/camunda-bpm-sso

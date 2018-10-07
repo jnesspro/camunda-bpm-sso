@@ -24,8 +24,8 @@ window.camCockpitConf = {
   // },
   'locales': {
     'availableLocales': ['ru', 'en'],
-    'fallbackLocale': 'ru'
-  },
+    'fallbackLocale': 'en'
+  }
   // skipCustomListeners: {
   //   default: true,
   //   hidden: false
